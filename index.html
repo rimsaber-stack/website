@@ -439,7 +439,7 @@
         <div style="text-align:center">
           <img src="necklace example/necklace.jpeg" alt="Necklace example" style="width:180px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.08)">
           <div style="color:#f0b5b5;font-size:1.1rem;font-weight:500;margin-top:0.5rem">75 dh</div>
-          <button class="add-btn" style="margin-top:0.5rem;background:linear-gradient(135deg,#f0b5b5,#e8a0a8);color:#fff;border:none;cursor:pointer;padding:0.5rem 1.2rem;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;transition:all 0.3s;font-family:'Inter',sans-serif;border-radius:50px;font-weight:500" onclick="addToCart(44)">Add to Cart</button>
+          <button class="add-btn" style="margin-top:0.5rem;background:linear-gradient(135deg,#f0b5b5,#e8a0a8);color:#fff;border:none;cursor:pointer;padding:0.5rem 1.2rem;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;transition:all 0.3s;font-family:'Inter',sans-serif;border-radius:50px;font-weight:500" onclick="addNecklace()">Add to Cart</button>
         </div>
       </div>
       <h3 style="text-align:center;font-family:'Playfair Display',serif;font-weight:400;margin-bottom:1.5rem;color:#3d2c2e">Charms Catalog</h3>
@@ -535,7 +535,10 @@
 
   <script>
     const products = [
-      // 20 dh charms
+      // Montre
+      { id: 42, name: 'Gold Charm Watch', price: 120, img: 'montre/gold charm watch.png', desc: 'Handcrafted watch', cat: 'bracelet' },
+      { id: 48, name: 'Empty Bracelet', price: 75, img: 'montre/empty bracelet.png', desc: 'Handcrafted bracelet', cat: 'bracelet' },
+      { id: 43, name: 'Silver Charm Watch', price: 120, img: 'montre/silver charm watch.png', desc: 'Handcrafted watch', cat: 'bracelet' },
       { id: 1, name: 'Artsy Charm', price: 20, img: 'products/artsy charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
       { id: 2, name: 'Black & White Charm', price: 20, img: 'products/black and white charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
       { id: 3, name: 'Blue Butterfly Charm', price: 20, img: 'products/blue butterfly charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
@@ -579,17 +582,12 @@
       { id: 38, name: 'Sun Charm', price: 20, img: 'little/sun charm.jpeg', desc: 'Handcrafted charm', cat: 'bracelet' },
       { id: 39, name: 'Sylver Charm', price: 20, img: 'little/sylver charm.jpeg', desc: 'Handcrafted charm', cat: 'bracelet' },
       { id: 40, name: 'Yin Yang Charm', price: 20, img: 'little/yin yang charm.jpeg', desc: 'Handcrafted charm', cat: 'bracelet' },
-      // Bracelet
-      { id: 41, name: 'Italian Bracelet', price: 75, img: 'bracelet/italian bracelet.jpeg', desc: 'Handcrafted bracelet', cat: 'bracelet' },
-      // Montre
-      { id: 42, name: 'Gold Charm Watch', price: 120, img: 'montre/gold charm watch.png', desc: 'Handcrafted watch', cat: 'bracelet' },
-      { id: 43, name: 'Silver Charm Watch', price: 120, img: 'montre/silver charm watch.png', desc: 'Handcrafted watch', cat: 'bracelet' },
+
       // Necklaces
-      { id: 44, name: 'Beach Themed Charms', price: 75, img: 'necklace example/necklace.jpeg', desc: 'Handcrafted necklace', cat: 'bracelet' },
       // Necklace products
-      { id: 45, name: 'Blue Charm Necklace', price: 75, img: 'beach themed necklace charms/blue charm necklace.png', desc: 'Handcrafted necklace', cat: 'bracelet' },
-      { id: 46, name: 'Pink Summer Necklace', price: 75, img: 'beach themed necklace charms/pink summer necklace.png', desc: 'Handcrafted necklace', cat: 'bracelet' },
-      { id: 47, name: 'Red Charm Necklace', price: 75, img: 'beach themed necklace charms/red charm necklace.png', desc: 'Handcrafted necklace', cat: 'bracelet' },
+      { id: 45, name: 'Blue Charm Necklace', price: 75, img: 'beach themed necklace charms/blue charm necklace.png', desc: 'Handcrafted necklace', cat: 'necklace' },
+      { id: 46, name: 'Pink Summer Necklace', price: 75, img: 'beach themed necklace charms/pink summer necklace.png', desc: 'Handcrafted necklace', cat: 'necklace' },
+      { id: 47, name: 'Red Charm Necklace', price: 75, img: 'beach themed necklace charms/red charm necklace.png', desc: 'Handcrafted necklace', cat: 'necklace' },
     ];
 
     let cart = [];
@@ -650,14 +648,12 @@
         const cat = tab.dataset.cat;
         const isBraceletBuilder = cat === 'builder';
         const isNecklace = cat === 'necklace';
-        grid.style.display = (isBraceletBuilder || isNecklace) ? 'none' : '';
+        grid.style.display = isBraceletBuilder ? 'none' : '';
         builderSection.classList.toggle('active', isBraceletBuilder);
         necklaceBuilderSection.classList.toggle('active', isNecklace);
-        if (!isBraceletBuilder && !isNecklace) {
-          activeCat = cat;
-          renderShop();
-          document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        }
+        activeCat = cat;
+        renderShop();
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
       });
     });
 
@@ -765,8 +761,7 @@
       'image-removebg-preview (72).png','image-removebg-preview (73).png','image-removebg-preview (74).png',
       'image-removebg-preview (75).png','image-removebg-preview (76).png','image-removebg-preview (77).png',
       'image-removebg-preview (78).png','image-removebg-preview (79).png','image-removebg-preview (80).png',
-      'image-removebg-preview (81).png','image-removebg-preview (82).png','image-removebg-preview (83).png',
-      'image-removebg-preview (84).png'
+      'image-removebg-preview (81).png','image-removebg-preview (82).png',      'image-removebg-preview (83).png'
     ];
     const necklaceCharmNames = ['Colourful Hearts','Sun Charm',
       'Charm 1','Charm 2','Charm 3','Charm 4','Charm 5','Charm 6','Charm 7','Charm 8','Charm 9',
@@ -775,8 +770,7 @@
       'Charm 28','Charm 29','Charm 30','Charm 31','Charm 32',
       'Charm 33','Charm 34','Charm 35','Charm 36','Charm 37','Charm 38','Charm 39','Charm 40','Charm 41','Charm 42',
       'Charm 43','Charm 44','Charm 45','Charm 46','Charm 47','Charm 48','Charm 49','Charm 50','Charm 51','Charm 52',
-      'Charm 53','Charm 54','Charm 55','Charm 56','Charm 57','Charm 58','Charm 59','Charm 60','Charm 61','Charm 62',
-      'Charm 63'
+      'Charm 53','Charm 54','Charm 55','Charm 56','Charm 57','Charm 58','Charm 59','Charm 60','Charm 61',      'Charm 62'
     ];
     necklaceCharmFiles.forEach((f, i) => {
       const div = document.createElement('div');
@@ -861,6 +855,14 @@
       cartItems.querySelectorAll('.remove-btn').forEach(btn => {
         btn.addEventListener('click', () => removeFromCart(Number(btn.dataset.id)));
       });
+    }
+
+    function addNecklace() {
+      const existing = cart.find(c => c.id === 44);
+      if (existing) existing.qty++;
+      else cart.push({ id: 44, name: 'Beach Themed Charms', price: 75, img: 'necklace example/necklace.jpeg', desc: 'Handcrafted necklace', qty: 1 });
+      updateCart();
+      showToast('Beach Themed Charms added to cart');
     }
 
     function addToCart(id, showToastMsg = true) {

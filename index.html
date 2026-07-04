@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glitz — Fine Jewelry</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fdfaf6;
+      color: #3d2c2e;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+    ::selection { background: #f0b5b5; color: #fff; }
+
+    /* Navigation */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 5%;
+      background: rgba(253,250,246,0.8);
+      backdrop-filter: blur(20px) saturate(1.2);
+      border-bottom: 1px solid rgba(240,181,181,0.1);
+      transition: all 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.04); }
+    nav .logo { display: flex; align-items: center; text-decoration: none; }
+    nav .logo img { height: 36px; transition: transform 0.3s; }
+    nav .logo:hover img { transform: scale(1.03); }
+    nav ul { list-style: none; display: flex; gap: 2.5rem; align-items: center; }
+    nav ul a {
+      color: #7a6a6c; text-decoration: none; font-size: 0.78rem; letter-spacing: 2.5px;
+      text-transform: uppercase; transition: all 0.3s; position: relative;
+      padding-bottom: 2px;
+    }
+    nav ul a::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1.5px;
+      background: #f0b5b5; transition: width 0.3s;
+    }
+    nav ul a:hover { color: #3d2c2e; }
+    nav ul a:hover::after { width: 100%; }
+    .cart-btn {
+      background: linear-gradient(135deg, #f0b5b5, #f5c8d0); border: none; color: #fff;
+      cursor: pointer; padding: 0.5rem 1.2rem; font-size: 0.8rem; letter-spacing: 2px;
+      text-transform: uppercase; transition: all 0.3s; font-family: 'Inter', sans-serif;
+      border-radius: 6px; font-weight: 500;
+    }
+    .cart-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(240,181,181,0.4); }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      background: linear-gradient(160deg, #fdfaf6 0%, #fce4ec 35%, #fff9c4 70%, #fdfaf6 100%);
+      position: relative; overflow: hidden;
+      padding: 2rem;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 20% 30%, rgba(240,181,181,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 500px 500px at 80% 70%, rgba(255,249,196,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero .floating {
+      position: absolute; font-size: 2rem; opacity: 0.06; pointer-events: none;
+      animation: float 20s ease-in-out infinite;
+    }
+    .hero .floating:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+    .hero .floating:nth-child(2) { top: 20%; right: 8%; animation-delay: -5s; font-size: 3rem; }
+    .hero .floating:nth-child(3) { bottom: 15%; left: 12%; animation-delay: -10s; }
+    .hero .floating:nth-child(4) { bottom: 25%; right: 5%; animation-delay: -15s; font-size: 2.5rem; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(5deg); }
+    }
+    .hero h1 {
+      position: relative; animation: fadeUp 1s ease;
+    }
+    .hero h1 img {
+      height: clamp(70px, 14vw, 150px);
+      filter: drop-shadow(0 8px 30px rgba(240,181,181,0.15));
+    }
+    .hero p {
+      font-size: 1rem; color: #7a6a6c; margin-top: 1.5rem; letter-spacing: 6px;
+      text-transform: uppercase; animation: fadeUp 1s ease 0.15s both;
+      font-weight: 300;
+    }
+    .hero .cta { margin-top: 2.5rem; animation: fadeUp 1s ease 0.3s both; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .hero .cta a {
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2.5rem;
+      background: linear-gradient(135deg, #f0b5b5, #e8a0a8); color: #fff; text-decoration: none;
+      letter-spacing: 3px; font-size: 0.75rem; text-transform: uppercase; border-radius: 50px;
+      transition: all 0.4s; font-weight: 500;
+    }
+    .hero .cta a:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(240,181,181,0.5); }
+    .hero .cta a.outline {
+      background: transparent; border: 1px solid rgba(240,181,181,0.4); color: #3d2c2e;
+    }
+    .hero .cta a.outline:hover { background: rgba(240,181,181,0.08); box-shadow: none; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section common */
+    section { padding: 7rem 5%; max-width: 1200px; margin: 0 auto; }
+    .section-title {
+      font-size: 2.8rem; text-align: center; margin-bottom: 0.5rem; color: #3d2c2e;
+    }
+    .section-sub {
+      text-align: center; color: #a89a9c; font-size: 0.8rem; letter-spacing: 5px;
+      text-transform: uppercase; margin-bottom: 4rem; font-weight: 300;
+    }
+
+    /* About */
+    #about {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+    #about .image-wrap {
+      position: relative; border-radius: 20px; overflow: hidden;
+      background: linear-gradient(145deg, #fce4ec, #fff9c4);
+      box-shadow: 0 20px 60px rgba(240,181,181,0.1);
+      aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    #about .image-wrap img { width: 90%; height: 90%; object-fit: contain; }
+    #about .image-wrap::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(240,181,181,0.1), transparent 50%);
+    }
+    #about h2 { font-size: 2.4rem; margin-bottom: 1.5rem; line-height: 1.3; }
+    #about h2 em { color: #f0b5b5; font-style: italic; }
+    #about p { color: #7a6a6c; margin-bottom: 1.2rem; font-size: 0.95rem; line-height: 1.8; }
+    #about .signature { font-family: 'Playfair Display', serif; font-style: italic; color: #f0b5b5; font-size: 1.2rem; margin-top: 1.5rem; }
+
+    /* Collection */
+    .collection-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem;
+    }
+    .product-card {
+      background: #fff; border-radius: 16px; padding: 1.8rem; text-align: center;
+      transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      border: 1px solid rgba(61,44,46,0.04);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.02);
+      position: relative; overflow: hidden;
+    }
+    .product-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #f0b5b5, #fff9c4);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(240,181,181,0.12); border-color: rgba(240,181,181,0.15); }
+    .product-card:hover::before { opacity: 1; }
+    .product-card .img {
+      width: 100%; aspect-ratio: 1; border-radius: 12px; margin-bottom: 1.2rem;
+      overflow: hidden; position: relative;
+    }
+    .product-card h3 { font-size: 1.15rem; margin-bottom: 0.2rem; }
+    .product-card .price { color: #f0b5b5; font-size: 1.05rem; letter-spacing: 1px; font-weight: 500; }
+    .product-card .desc { color: #b5a7a9; font-size: 0.78rem; margin: 0.4rem 0 1.2rem; }
+    .product-card .add-btn {
+      background: transparent; border: 1px solid rgba(240,181,181,0.3); color: #3d2c2e;
+      cursor: pointer; padding: 0.6rem 1.8rem; font-size: 0.7rem; letter-spacing: 2.5px;
+      text-transform: uppercase; transition: all 0.3s; font-family: 'Inter', sans-serif;
+      border-radius: 50px;
+    }
+    .product-card .add-btn:hover { background: linear-gradient(135deg, #f0b5b5, #e8a0a8); color: #fff; border-color: transparent; transform: scale(1.02); }
+
+    /* Category tabs */
+    .cat-tabs { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 3rem; flex-wrap: wrap; }
+    .cat-tab {
+      padding: 0.5rem 1.5rem; border-radius: 50px; border: 1px solid rgba(61,44,46,0.08);
+      background: transparent; color: #7a6a6c; cursor: pointer; font-family: 'Inter', sans-serif;
+      font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; transition: all 0.3s;
+    }
+    .cat-tab:hover { border-color: #f0b5b5; color: #3d2c2e; }
+    .cat-tab.active { background: linear-gradient(135deg, #f0b5b5, #e8a0a8); color: #fff; border-color: transparent; }
+
+    /* Bracelet Builder */
+    .builder { display: none; }
+    .builder.active { display: block; }
+    .builder-bracelet {
+      width: 100%; max-width: 550px; margin: 0 auto 2rem; position: relative; padding: 4rem 2rem;
+      display: flex; align-items: center; justify-content: center; gap: 0.2rem;
+    }
+    .builder-bracelet::before {
+      content: ''; position: absolute; left: 5%; right: 5%; top: 50%; height: 3px;
+      background: linear-gradient(90deg, #d4af37, #f0b5b5, #d4af37); border-radius: 2px;
+      transform: translateY(-50%);
+    }
+    .builder-bracelet .slot { width: 64px; height: 64px; overflow: hidden; display: flex; align-items: center; justify-content: center; transition: all 0.3s; position: relative; cursor: pointer; z-index: 1; border: 2px dashed rgba(61,44,46,0.15); border-radius: 8px; }
+    .builder-bracelet .slot.dragover { border-color: #f0b5b5; background: rgba(240,181,181,0.06); }
+    .builder-bracelet .slot img { max-width: 56px; max-height: 56px; object-fit: contain; }
+    .builder-bracelet .slot .remove {
+      position: absolute; top: -6px; right: -6px; width: 18px; height: 18px;
+      background: #e57373; color: #fff; border-radius: 50%; font-size: 0.6rem;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      border: none; font-family: 'Inter', sans-serif; line-height: 1;
+    }
+    .builder-charms {
+      display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; padding: 1.5rem;
+      background: #fff; border-radius: 16px; border: 1px solid rgba(61,44,46,0.04);
+      max-width: 600px; margin: 0 auto;
+    }
+    .builder-charms .charm-item { cursor: grab; overflow: hidden; border-radius: 4px; transition: all 0.3s; display: inline-flex; padding: 4px; }
+    .builder-charms .charm-item:hover { transform: scale(1.08); }
+    .builder-charms .charm-item:active { cursor: grabbing; }
+    .builder-charms .charm-item img { max-width: 48px; max-height: 48px; object-fit: contain; }
+    .builder-footer {
+      display: flex; justify-content: center; align-items: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;
+    }
+    .builder-price { font-size: 1.2rem; font-weight: 500; }
+    .builder-price span { color: #f0b5b5; }
+    .builder-add-btn {
+      padding: 0.8rem 2rem; background: linear-gradient(135deg, #f0b5b5, #e8a0a8); color: #fff;
+      border: none; border-radius: 50px; font-size: 0.78rem; letter-spacing: 2.5px;
+      text-transform: uppercase; cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: all 0.3s; font-weight: 500;
+    }
+    .builder-add-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(240,181,181,0.4); }
+    .builder-add-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* Cart Sidebar */
+    .cart-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.2); z-index: 200;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s;
+      backdrop-filter: blur(4px);
+    }
+    .cart-overlay.open { opacity: 1; pointer-events: all; }
+    .cart-sidebar {
+      position: fixed; top: 0; right: 0; height: 100vh; width: 420px; max-width: 100vw;
+      background: #fdfaf6; z-index: 201; padding: 2rem; display: flex; flex-direction: column;
+      transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: -20px 0 60px rgba(0,0,0,0.06);
+    }
+    .cart-sidebar.open { transform: translateX(0); }
+    .cart-sidebar .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    .cart-sidebar .header h2 { font-size: 1.5rem; }
+    .cart-sidebar .close-btn {
+      background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #a89a9c;
+      transition: color 0.3s; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+    }
+    .cart-sidebar .close-btn:hover { background: #f5f0ea; color: #3d2c2e; }
+    .cart-items { flex: 1; overflow-y: auto; }
+    .cart-items::-webkit-scrollbar { width: 4px; }
+    .cart-items::-webkit-scrollbar-thumb { background: #f0b5b5; border-radius: 10px; }
+    .cart-item {
+      display: flex; gap: 1rem; padding: 1.2rem 0; border-bottom: 1px solid rgba(61,44,46,0.04);
+      align-items: center;
+    }
+    .cart-item .thumb {
+      width: 56px; height: 56px; border-radius: 10px;
+      overflow: hidden; flex-shrink: 0;
+    }
+    .cart-item .info { flex: 1; }
+    .cart-item .info h4 { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 400; }
+    .cart-item .info .price { color: #f0b5b5; font-size: 0.85rem; }
+    .cart-item .qty { display: flex; align-items: center; gap: 0.4rem; }
+    .cart-item .qty button {
+      width: 28px; height: 28px; border-radius: 6px; border: 1px solid rgba(61,44,46,0.08);
+      background: #fff; cursor: pointer; font-size: 0.9rem; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; color: #3d2c2e;
+    }
+    .cart-item .qty button:hover { border-color: #f0b5b5; background: #fdf2f5; color: #f0b5b5; }
+    .cart-item .qty span { width: 24px; text-align: center; font-size: 0.9rem; }
+    .cart-item .remove-btn {
+      background: none; border: none; color: #c5b7b9; cursor: pointer; font-size: 1.1rem;
+      transition: all 0.2s; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .cart-item .remove-btn:hover { background: #fdf2f5; color: #e57373; }
+    .cart-empty { text-align: center; color: #b5a7a9; margin-top: 4rem; font-size: 0.9rem; }
+    .cart-footer { border-top: 1px solid rgba(61,44,46,0.06); padding-top: 1.2rem; margin-top: 0.5rem; }
+    .cart-footer .total { display: flex; justify-content: space-between; font-size: 1.05rem; margin-bottom: 1rem; }
+    .cart-footer .total span:last-child { color: #f0b5b5; font-weight: 600; font-size: 1.15rem; }
+    .cart-footer .checkout-btn {
+      width: 100%; padding: 0.9rem; background: linear-gradient(135deg, #f0b5b5, #e8a0a8); color: #fff;
+      border: none; font-size: 0.78rem; letter-spacing: 3px; text-transform: uppercase; cursor: pointer;
+      transition: all 0.3s; font-family: 'Inter', sans-serif; border-radius: 10px; font-weight: 500;
+    }
+    .cart-footer .checkout-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(240,181,181,0.4); }
+
+    /* Checkout Modal */
+    .checkout-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.2); z-index: 250;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+      backdrop-filter: blur(4px);
+    }
+    .checkout-overlay.open { opacity: 1; pointer-events: all; }
+    .checkout-modal {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0.92);
+      background: #fdfaf6; z-index: 251; padding: 2.5rem; width: 480px; max-width: 95vw;
+      border-radius: 20px; opacity: 0; pointer-events: none; transition: all 0.35s ease;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.08); max-height: 90vh; overflow-y: auto;
+    }
+    .checkout-modal.open { opacity: 1; pointer-events: all; transform: translate(-50%,-50%) scale(1); }
+    .checkout-modal .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .checkout-modal .header h2 { font-size: 1.5rem; }
+    .checkout-modal .close-btn { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #a89a9c; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .checkout-modal .close-btn:hover { background: #f5f0ea; color: #3d2c2e; }
+    #checkoutForm .form-row { display: flex; gap: 1rem; }
+    #checkoutForm .form-group { margin-bottom: 1.2rem; flex: 1; }
+    #checkoutForm label { display: block; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: #a89a9c; margin-bottom: 0.4rem; }
+    #checkoutForm input {
+      width: 100%; padding: 0.8rem 1rem; border: 1px solid rgba(61,44,46,0.08);
+      font-family: 'Inter', sans-serif; font-size: 0.9rem; background: #fff;
+      color: #3d2c2e; transition: all 0.3s; outline: none; border-radius: 10px;
+    }
+    #checkoutForm input:focus { border-color: #f0b5b5; box-shadow: 0 0 0 3px rgba(240,181,181,0.08); }
+    .form-total { display: flex; justify-content: space-between; font-size: 1.05rem; padding: 1rem 0; border-top: 1px solid rgba(61,44,46,0.06); }
+    .form-total span:last-child { color: #f0b5b5; font-weight: 600; }
+    .place-order-btn {
+      width: 100%; padding: 0.9rem; background: linear-gradient(135deg, #f0b5b5, #e8a0a8); color: #fff;
+      border: none; font-size: 0.78rem; letter-spacing: 3px; text-transform: uppercase; cursor: pointer;
+      transition: all 0.3s; font-family: 'Inter', sans-serif; border-radius: 10px; font-weight: 500;
+      margin-top: 0.5rem;
+    }
+    .place-order-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(240,181,181,0.4); }
+
+    /* Contact */
+    #contact { text-align: center; }
+    #contact p { color: #7a6a6c; max-width: 500px; margin: 0 auto 2.5rem; font-size: 0.95rem; line-height: 1.8; }
+    .contact-info { display: flex; justify-content: center; gap: 3.5rem; flex-wrap: wrap; }
+    .contact-card {
+      background: #fff; border-radius: 16px; padding: 1.8rem 2.5rem; min-width: 180px;
+      border: 1px solid rgba(61,44,46,0.04); box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+      transition: all 0.3s;
+    }
+    .contact-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(240,181,181,0.08); }
+    .contact-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .contact-card .label { font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: #b5a7a9; margin-bottom: 0.3rem; }
+    .contact-card .value { color: #3d2c2e; font-size: 0.9rem; font-weight: 500; }
+
+    /* Footer */
+    footer {
+      text-align: center; padding: 3rem 5%; border-top: 1px solid rgba(61,44,46,0.04);
+      color: #b5a7a9; font-size: 0.8rem; letter-spacing: 1px;
+    }
+    footer span { color: #f0b5b5; }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem; background: #3d2c2e; color: #fdfaf6;
+      padding: 1rem 2rem; font-size: 0.85rem; border-radius: 12px;
+      opacity: 0; transform: translateY(20px) scale(0.95); transition: all 0.35s ease;
+      z-index: 300; pointer-events: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    .toast.show { opacity: 1; transform: translateY(0) scale(1); }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0; transform: translateY(30px); transition: all 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav ul { gap: 1rem; }
+      nav ul a { font-size: 0.6rem; letter-spacing: 1px; }
+      nav .logo img { height: 28px; }
+      .section-title { font-size: 2rem; }
+      #about { grid-template-columns: 1fr; gap: 2.5rem; }
+      .contact-info { gap: 1.2rem; }
+      .contact-card { padding: 1.2rem 1.8rem; }
+      .cart-sidebar { width: 100vw; }
+    }
+    @media (max-width: 480px) {
+      nav ul { gap: 0.6rem; }
+      nav ul a { font-size: 0.5rem; letter-spacing: 0.5px; }
+      .cart-btn { padding: 0.3rem 0.8rem; font-size: 0.65rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Nav -->
+  <nav id="navbar">
+    <a href="#" class="logo"><img src="logo/logo.jpeg" alt="Glitz"></a>
+    <ul>
+      <li><a href="#collection">Collection</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><button class="cart-btn" id="cartToggle">Cart (<span id="cartCountNav">0</span>)</button></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="floating">&#9679;</div>
+    <div class="floating">&#10022;</div>
+    <div class="floating">&#9678;</div>
+    <div class="floating">&#10070;</div>
+    <h1><img src="logo/logo.jpeg" alt="Glitz" style="height:clamp(70px,14vw,150px);filter:drop-shadow(0 8px 30px rgba(240,181,181,0.15))"></h1>
+    <p>Handcrafted fine jewelry</p>
+    <div class="cta">
+      <a href="#collection">Explore Collection &rarr;</a>
+      <a href="#contact" class="outline">Get in Touch</a>
+    </div>
+  </section>
+
+  <!-- Collection -->
+  <section id="collection">
+    <h2 class="section-title">Our Collection</h2>
+    <p class="section-sub">Curated for every occasion</p>
+    <div class="cat-tabs">
+      <button class="cat-tab active" data-cat="bracelet">Italian Bracelets and Charms</button>
+      <button class="cat-tab" data-cat="necklace">Charms and Necklaces</button>
+      <button class="cat-tab" data-cat="builder">Design Your Bracelet</button>
+    </div>
+    <div class="collection-grid" id="productGrid"></div>
+
+    <!-- Bracelet Builder -->
+    <div class="builder" id="builderSection">
+      <div class="builder-bracelet" id="braceletCanvas">
+        <div class="slot" data-slot="0"></div>
+        <div class="slot" data-slot="1"></div>
+        <div class="slot" data-slot="2"></div>
+        <div class="slot" data-slot="3"></div>
+        <div class="slot" data-slot="4"></div>
+        <div class="slot" data-slot="5"></div>
+        <div class="slot" data-slot="6"></div>
+      </div>
+      <p style="text-align:center;color:#b5a7a9;font-size:0.8rem;margin-bottom:1.5rem">Drag charms onto the bracelet</p>
+      <div class="builder-charms" id="charmTray"></div>
+      <div class="builder-footer">
+        <div class="builder-price">Total: <span id="builderTotal">75 dh</span></div>
+        <button class="builder-add-btn" id="builderAddBtn" disabled>Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Necklace Builder -->
+    <div class="builder" id="necklaceBuilderSection">
+      <p style="text-align:center;color:#b5a7a9;font-size:0.85rem;margin-bottom:1.5rem">Choose 5 charms to design your necklace</p>
+      <div style="display:flex;align-items:center;justify-content:center;gap:2rem;margin-bottom:2rem;flex-wrap:wrap">
+        <div style="text-align:center">
+          <img src="necklace example/necklace.jpeg" alt="Necklace example" style="width:180px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.08)">
+          <div style="color:#f0b5b5;font-size:1.1rem;font-weight:500;margin-top:0.5rem">75 dh</div>
+          <button class="add-btn" style="margin-top:0.5rem;background:linear-gradient(135deg,#f0b5b5,#e8a0a8);color:#fff;border:none;cursor:pointer;padding:0.5rem 1.2rem;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;transition:all 0.3s;font-family:'Inter',sans-serif;border-radius:50px;font-weight:500" onclick="addToCart(44)">Add to Cart</button>
+        </div>
+      </div>
+      <h3 style="text-align:center;font-family:'Playfair Display',serif;font-weight:400;margin-bottom:1.5rem;color:#3d2c2e">Charms Catalog</h3>
+      <div class="builder-charms" id="necklaceCharmTray"></div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="reveal">
+    <h2 class="section-title">Get in Touch</h2>
+    <p>We'd love to hear from you. Whether it's a custom commission or a question about our pieces, reach out.</p>
+    <div class="contact-info">
+      <a href="https://instagram.com/glitzz.jewellery" target="_blank" style="text-decoration:none;color:inherit">
+        <div class="contact-card">
+          <div class="icon">&#9829;</div>
+          <div class="label">Instagram</div>
+          <div class="value">@glitzz.jewellery</div>
+        </div>
+      </a>
+      <a href="https://tiktok.com/@glitzjwels" target="_blank" style="text-decoration:none;color:inherit">
+        <div class="contact-card">
+          <div class="icon">&#9830;</div>
+          <div class="label">TikTok</div>
+          <div class="value">@glitzjwels</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2026 Glitz Fine Jewelry. All rights reserved. <span>&middot;</span>
+    <span id="adminTrigger" style="cursor:pointer;user-select:none">&bull;</span>
+  </footer>
+
+  <!-- Cart -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="header">
+      <h2>Your Cart</h2>
+      <button class="close-btn" id="cartClose">&times;</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer" id="cartFooter">
+      <div class="total"><span>Total</span><span id="cartTotal">$0</span></div>
+      <button class="checkout-btn" id="checkoutBtn">Checkout</button>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="checkout-overlay" id="checkoutOverlay"></div>
+  <div class="checkout-modal" id="checkoutModal">
+    <div class="header">
+      <h2>Checkout</h2>
+      <button class="close-btn" id="checkoutClose">&times;</button>
+    </div>
+    <form id="checkoutForm" netlify>
+      <input type="hidden" name="form-name" value="Order Form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" required placeholder="Jane">
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" required placeholder="Doe">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" required placeholder="+212 6XX-XXXXXX">
+      </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" id="address" required placeholder="123 Rue, Appt 4B">
+      </div>
+      <div class="form-group">
+        <label for="city">City</label>
+        <input type="text" id="city" required placeholder="Casablanca" list="cities" oninput="calcShipping()">
+        <datalist id="cities"></datalist>
+      </div>
+      <div class="form-total" style="flex-direction:column;gap:0.5rem">
+        <div style="display:flex;justify-content:space-between"><span>Subtotal</span><span id="checkoutSubtotal">0 dh</span></div>
+        <div style="display:flex;justify-content:space-between"><span>Shipping</span><span id="checkoutShipping">—</span></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px solid rgba(61,44,46,0.06);padding-top:0.5rem;font-weight:600"><span>Total</span><span id="checkoutTotal">0 dh</span></div>
+      </div>
+      <button type="submit" class="place-order-btn" id="placeOrderBtn" disabled>Select a city</button>
+    </form>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const products = [
+      // 20 dh charms
+      { id: 1, name: 'Artsy Charm', price: 20, img: 'products/artsy charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 2, name: 'Black & White Charm', price: 20, img: 'products/black and white charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 3, name: 'Blue Butterfly Charm', price: 20, img: 'products/blue butterfly charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 4, name: 'Blue Flower Charm', price: 20, img: 'products/blue flower charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 5, name: 'Blue Sky Tulip Charm', price: 20, img: 'products/blue sky tulip charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 6, name: 'Double Butterfly Charm', price: 35, img: 'products/double butterfly charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 7, name: 'Drama Queen Charm', price: 20, img: 'products/drama queen charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 8, name: 'Gold Butterfly Charm', price: 20, img: 'products/gold butterfly charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 9, name: 'Little Tulip Charm', price: 20, img: 'products/little tulip charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 10, name: 'Pink Duck Charm', price: 20, img: 'products/pink duck charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 11, name: 'Pink Glamour Charm', price: 20, img: 'products/pink glamour charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 12, name: 'Polka Dots Charm', price: 20, img: 'products/polka dots charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 13, name: 'Silver Paw Charm', price: 20, img: 'products/silver paw charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 14, name: 'Sunflower Charm', price: 20, img: 'products/sunflower charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 15, name: 'White Puppy Charm', price: 20, img: 'products/white puppy charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      // 25 dh charms
+      { id: 16, name: 'Blue Bow Charm', price: 25, img: '25/blue bow charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 17, name: 'Blue Turtle Charm', price: 25, img: '25/blue turtle charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 18, name: 'Colorful Heart Charm', price: 25, img: '25/colorful heart charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 19, name: 'Conver', price: 25, img: '25/conver.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 20, name: 'Fish Charm', price: 25, img: '25/fish charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 21, name: 'Long Cat Charm', price: 25, img: '25/long cat charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 22, name: 'Long Heart Charm', price: 25, img: '25/long heart charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 23, name: 'Pearl Charm', price: 25, img: '25/pearl charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 24, name: 'Rose Charm', price: 25, img: '25/rose charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 25, name: 'Sea Horse Charm', price: 25, img: '25/sea horse charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 26, name: 'Sea Star Charm', price: 25, img: '25/sea star charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 27, name: 'Shell Silver Charm', price: 25, img: '25/shell silver charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 28, name: 'Star Double Charm', price: 35, img: '25/star double charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 29, name: 'Teddy Bear Charm', price: 25, img: '25/teddy bear charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 30, name: 'Tulip Charm', price: 25, img: '25/tulip charm.jpg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      // 30 dh
+      { id: 31, name: 'White Double Charm', price: 30, img: '30/white double charm.png', desc: 'Handcrafted charm', cat: 'bracelet' },
+      // Little 20 dh
+      { id: 32, name: 'Cherry Charm', price: 20, img: 'little/cherry charm.jpeg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 33, name: 'Evil Eye Charm', price: 20, img: 'little/evil eye charm.jpeg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 34, name: 'Jelly Fish Charm', price: 20, img: 'little/jelly fish charm.jpeg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 35, name: 'Long Flower Charm', price: 28, img: 'little/long flower charm.jpeg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 36, name: 'Purple Flower Charm', price: 20, img: 'little/purple flower charm.jpeg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 37, name: 'Silver Blue Charm', price: 20, img: 'little/silver blue charm.jpeg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 38, name: 'Sun Charm', price: 20, img: 'little/sun charm.jpeg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 39, name: 'Sylver Charm', price: 20, img: 'little/sylver charm.jpeg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      { id: 40, name: 'Yin Yang Charm', price: 20, img: 'little/yin yang charm.jpeg', desc: 'Handcrafted charm', cat: 'bracelet' },
+      // Bracelet
+      { id: 41, name: 'Italian Bracelet', price: 75, img: 'bracelet/italian bracelet.jpeg', desc: 'Handcrafted bracelet', cat: 'bracelet' },
+      // Montre
+      { id: 42, name: 'Gold Charm Watch', price: 120, img: 'montre/gold charm watch.png', desc: 'Handcrafted watch', cat: 'bracelet' },
+      { id: 43, name: 'Silver Charm Watch', price: 120, img: 'montre/silver charm watch.png', desc: 'Handcrafted watch', cat: 'bracelet' },
+      // Necklaces
+      { id: 44, name: 'Beach Themed Charms', price: 75, img: 'necklace example/necklace.jpeg', desc: 'Handcrafted necklace', cat: 'bracelet' },
+      // Necklace products
+      { id: 45, name: 'Blue Charm Necklace', price: 75, img: 'beach themed necklace charms/blue charm necklace.png', desc: 'Handcrafted necklace', cat: 'bracelet' },
+      { id: 46, name: 'Pink Summer Necklace', price: 75, img: 'beach themed necklace charms/pink summer necklace.png', desc: 'Handcrafted necklace', cat: 'bracelet' },
+      { id: 47, name: 'Red Charm Necklace', price: 75, img: 'beach themed necklace charms/red charm necklace.png', desc: 'Handcrafted necklace', cat: 'bracelet' },
+    ];
+
+    let cart = [];
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+
+    // Charm design products (for the builder)
+    const charmDesignFiles = [
+      'image-removebg-preview (1).png','image-removebg-preview (2).png','image-removebg-preview (3).png',
+      'image-removebg-preview (4).png','image-removebg-preview (5).png','image-removebg-preview (6).png',
+      'image-removebg-preview (7).png','image-removebg-preview (10).png','image-removebg-preview (12).png',
+      'image-removebg-preview (13).png','image-removebg-preview (14).png','image-removebg-preview (15).png',
+      'image-removebg-preview (16).png','image-removebg-preview (17).png','image-removebg-preview (18).png',
+      'image-removebg-preview (19).png','image-removebg-preview (21).png','image-removebg-preview (22).png',
+      'image-removebg-preview (23).png','image-removebg-preview (24).png','image-removebg-preview (26).png',
+      'image-removebg-preview (28).png','image-removebg-preview (29).png','image-removebg-preview (31).png',
+      'image-removebg-preview (32).png','image-removebg-preview (33).png','image-removebg-preview (34).png',
+      'image-removebg-preview (35).png','image-removebg-preview (40).png','image-removebg-preview (41).png',
+      'image-removebg-preview (42).png','image-removebg-preview (43).png','image-removebg-preview (44).png',
+      'image-removebg-preview (45).png','image-removebg-preview (46).png','image-removebg-preview (47).png',
+      'image-removebg-preview (49).png','image-removebg-preview (51).png'
+    ];
+    const charmProducts = charmDesignFiles.map((f, i) => ({
+      id: 100 + i, name: `Charm ${i + 1}`, price: 20, img: `charm design/${f}`, desc: 'Design charm'
+    }));
+
+    let activeCat = 'bracelet';
+
+    const grid = document.getElementById('productGrid');
+    function renderShop() {
+      grid.innerHTML = '';
+      products.filter(p => p.cat === activeCat).forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card reveal';
+        card.innerHTML = `
+          <div class="img"><img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover"></div>
+          <h3>${p.name}</h3>
+          <div class="price">${p.price} dh</div>
+          <div class="desc">${p.desc}</div>
+          <button class="add-btn" data-id="${p.id}">Add to Cart</button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+    renderShop();
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Category tabs
+    const builderSection = document.getElementById('builderSection');
+    const necklaceBuilderSection = document.getElementById('necklaceBuilderSection');
+    document.querySelectorAll('.cat-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const cat = tab.dataset.cat;
+        const isBraceletBuilder = cat === 'builder';
+        const isNecklace = cat === 'necklace';
+        grid.style.display = (isBraceletBuilder || isNecklace) ? 'none' : '';
+        builderSection.classList.toggle('active', isBraceletBuilder);
+        necklaceBuilderSection.classList.toggle('active', isNecklace);
+        if (!isBraceletBuilder && !isNecklace) {
+          activeCat = cat;
+          renderShop();
+          document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+      });
+    });
+
+    // Bracelet Builder
+    const slots = document.querySelectorAll('.slot');
+    const charmTray = document.getElementById('charmTray');
+    const builderTotal = document.getElementById('builderTotal');
+    const builderAddBtn = document.getElementById('builderAddBtn');
+    const bracelet = { 0: null, 1: null, 2: null, 3: null, 4: null, 5: null, 6: null };
+
+    // Populate charm tray with unique charms
+    const seen = new Set();
+    charmProducts.forEach(p => {
+      if (seen.has(p.name)) return;
+      seen.add(p.name);
+      const div = document.createElement('div');
+      div.className = 'charm-item';
+      div.draggable = true;
+      div.innerHTML = `<img src="${p.img}" alt="${p.name}" data-id="${p.id}" data-price="${p.price}" data-name="${p.name}">`;
+      div.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', JSON.stringify({ id: p.id, name: p.name, price: p.price, img: p.img }));
+      });
+      // Click to add to first empty slot
+      div.addEventListener('click', () => {
+        const emptySlot = Array.from(document.querySelectorAll('.slot')).find(s => !s.querySelector('img'));
+        if (!emptySlot) return;
+        const idx = emptySlot.dataset.slot;
+        bracelet[idx] = { id: p.id, name: p.name, price: p.price, img: p.img };
+        emptySlot.innerHTML = `<img src="${p.img}" alt="${p.name}"><button class="remove" data-slot="${idx}">&times;</button>`;
+        updateBuilder();
+      });
+      charmTray.appendChild(div);
+    });
+
+    slots.forEach(slot => {
+      slot.addEventListener('dragover', e => { e.preventDefault(); slot.classList.add('dragover'); });
+      slot.addEventListener('dragleave', () => slot.classList.remove('dragover'));
+      slot.addEventListener('drop', e => {
+        e.preventDefault();
+        slot.classList.remove('dragover');
+        const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+        const idx = slot.dataset.slot;
+        if (bracelet[idx]) return;
+        bracelet[idx] = data;
+        slot.innerHTML = `<img src="${data.img}" alt="${data.name}"><button class="remove" data-slot="${idx}">&times;</button>`;
+        updateBuilder();
+      });
+    });
+
+    // Remove charm from slot
+    document.addEventListener('click', e => {
+      if (e.target.classList.contains('remove') && e.target.dataset.slot !== undefined) {
+        const idx = e.target.dataset.slot;
+        bracelet[idx] = null;
+        const slot = document.querySelector(`.slot[data-slot="${idx}"]`);
+        slot.innerHTML = '';
+        updateBuilder();
+      }
+    });
+
+    function updateBuilder() {
+      const charmsTotal = Object.values(bracelet).reduce((sum, c) => sum + (c ? c.price : 0), 0);
+      const total = 75 + charmsTotal;
+      builderTotal.textContent = total + ' dh';
+      const count = Object.values(bracelet).filter(Boolean).length;
+      builderAddBtn.disabled = count === 0;
+    }
+
+    builderAddBtn.addEventListener('click', () => {
+      const charms = Object.values(bracelet).filter(Boolean);
+      if (charms.length === 0) return;
+      const names = charms.map(c => c.name).join(' + ');
+      const charmsTotal = charms.reduce((s, c) => s + c.price, 0);
+      const total = 75 + charmsTotal;
+      cart.push({
+        id: Date.now(),
+        name: `Custom Bracelet (${names})`,
+        price: total,
+        img: charms[0].img,
+        qty: 1,
+        desc: 'Custom designed bracelet'
+      });
+      updateCart();
+      showToast('Custom bracelet added to cart!');
+      // Reset builder
+      Object.keys(bracelet).forEach(k => { bracelet[k] = null; });
+      slots.forEach(s => s.innerHTML = '');
+      updateBuilder();
+    });
+
+    // Necklace Builder
+    const nCharmTray = document.getElementById('necklaceCharmTray');
+
+    const necklaceCharmFiles = ['heart charm.png','sun charm.png',
+      'charm1.png','charm2.png','charm3.png','charm4.png','charm5.png','charm6.png','charm7.png','charm8.png','charm9.png',
+      'charm12.png','charm13.png','charm14.png','charm15 (2).png','charm16.png','charm17.png','charm18.png','charm19.png',
+      'charm20.png','charm21.png','charm22.png','charm23.png','charm24.png','charm25.png','charm26.png','charm27.png',
+      'charm28.png','charm29.png','charm30.png','charm31.png','charm32.png',
+      'image-removebg-preview (53).png','image-removebg-preview (54).png','image-removebg-preview (55).png',
+      'image-removebg-preview (56).png','image-removebg-preview (57).png','image-removebg-preview (58).png',
+      'image-removebg-preview (59).png','image-removebg-preview (60).png','image-removebg-preview (61).png',
+      'image-removebg-preview (62).png','image-removebg-preview (63).png','image-removebg-preview (64).png',
+      'image-removebg-preview (65).png','image-removebg-preview (67).png','image-removebg-preview (68).png',
+      'image-removebg-preview (69).png','image-removebg-preview (70).png','image-removebg-preview (71).png',
+      'image-removebg-preview (72).png','image-removebg-preview (73).png','image-removebg-preview (74).png',
+      'image-removebg-preview (75).png','image-removebg-preview (76).png','image-removebg-preview (77).png',
+      'image-removebg-preview (78).png','image-removebg-preview (79).png','image-removebg-preview (80).png',
+      'image-removebg-preview (81).png','image-removebg-preview (82).png','image-removebg-preview (83).png',
+      'image-removebg-preview (84).png'
+    ];
+    const necklaceCharmNames = ['Colourful Hearts','Sun Charm',
+      'Charm 1','Charm 2','Charm 3','Charm 4','Charm 5','Charm 6','Charm 7','Charm 8','Charm 9',
+      'Charm 12','Charm 13','Charm 14','Charm 15','Charm 16','Charm 17','Charm 18','Charm 19',
+      'Charm 20','Charm 21','Charm 22','Charm 23','Charm 24','Charm 25','Charm 26','Charm 27',
+      'Charm 28','Charm 29','Charm 30','Charm 31','Charm 32',
+      'Charm 33','Charm 34','Charm 35','Charm 36','Charm 37','Charm 38','Charm 39','Charm 40','Charm 41','Charm 42',
+      'Charm 43','Charm 44','Charm 45','Charm 46','Charm 47','Charm 48','Charm 49','Charm 50','Charm 51','Charm 52',
+      'Charm 53','Charm 54','Charm 55','Charm 56','Charm 57','Charm 58','Charm 59','Charm 60','Charm 61','Charm 62',
+      'Charm 63'
+    ];
+    necklaceCharmFiles.forEach((f, i) => {
+      const div = document.createElement('div');
+      div.className = 'charm-item';
+      div.style.flexDirection = 'column'; div.style.alignItems = 'center'; div.style.gap = '0.3rem'; div.style.padding = '8px';
+      div.innerHTML = `<img src="beach themed necklace charms/${f}" alt="Necklace charm" style="max-width:80px;max-height:80px;object-fit:contain">
+        <button class="charm-add-btn" data-nc="${200 + i}" data-nname="${necklaceCharmNames[i]}" data-nimg="beach themed necklace charms/${f}" style="background:linear-gradient(135deg,#f0b5b5,#e8a0a8);color:#fff;border:none;cursor:pointer;padding:0.3rem 0.8rem;font-size:0.6rem;letter-spacing:1.5px;text-transform:uppercase;border-radius:50px;font-family:'Inter',sans-serif;font-weight:500">Add to Cart</button>`;
+      nCharmTray.appendChild(div);
+    });
+
+    document.addEventListener('click', e => {
+      if (e.target.classList.contains('charm-add-btn')) {
+        const id = Number(e.target.dataset.nc);
+        const existing = cart.find(c => c.id === id);
+        if (existing) existing.qty++;
+        else cart.push({ id, name: e.target.dataset.nname, price: 0, img: e.target.dataset.nimg, qty: 1, desc: 'Free charm' });
+        updateCart();
+        showToast('Free charm added to cart!');
+      }
+    });
+
+    // Cart
+    const sidebar = document.getElementById('cartSidebar');
+    const overlay = document.getElementById('cartOverlay');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const cartCountNav = document.getElementById('cartCountNav');
+    const toast = document.getElementById('toast');
+
+    function openCart() { sidebar.classList.add('open'); overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeCart() { sidebar.classList.remove('open'); overlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+    document.getElementById('cartToggle').addEventListener('click', openCart);
+    document.getElementById('cartClose').addEventListener('click', closeCart);
+    overlay.addEventListener('click', closeCart);
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function updateCart() {
+      const count = cart.reduce((s, i) => s + i.qty, 0);
+      cartCountNav.textContent = count;
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
+        document.getElementById('cartFooter').style.display = 'none';
+        return;
+      }
+      document.getElementById('cartFooter').style.display = '';
+      let html = '';
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.qty;
+        html += `
+          <div class="cart-item">
+            <div class="thumb"><img src="${item.img}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px"></div>
+            <div class="info">
+              <h4>${item.name}</h4>
+              <div class="price">${item.price} dh</div>
+            </div>
+            <div class="qty">
+              <button data-id="${item.id}" data-action="dec">-</button>
+              <span>${item.qty}</span>
+              <button data-id="${item.id}" data-action="inc">+</button>
+            </div>
+            <button class="remove-btn" data-id="${item.id}">&times;</button>
+          </div>
+        `;
+      });
+      cartItems.innerHTML = html;
+      cartTotal.textContent = total.toLocaleString() + ' dh';
+      cartItems.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = Number(btn.dataset.id);
+          if (btn.dataset.action === 'inc') addToCart(id, false);
+          else if (btn.dataset.action === 'dec') decFromCart(id);
+        });
+      });
+      cartItems.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', () => removeFromCart(Number(btn.dataset.id)));
+      });
+    }
+
+    function addToCart(id, showToastMsg = true) {
+      const prod = products.find(p => p.id === id);
+      const existing = cart.find(c => c.id === id);
+      if (existing) { existing.qty++; }
+      else { cart.push({ ...prod, qty: 1 }); }
+      updateCart();
+      if (showToastMsg) showToast(`${prod.name} added to cart`);
+    }
+
+    function decFromCart(id) {
+      const existing = cart.find(c => c.id === id);
+      if (!existing) return;
+      if (existing.qty > 1) existing.qty--;
+      else cart = cart.filter(c => c.id !== id);
+      updateCart();
+    }
+
+    function removeFromCart(id) { cart = cart.filter(c => c.id !== id); updateCart(); }
+
+    grid.addEventListener('click', e => {
+      const btn = e.target.closest('.add-btn');
+      if (btn) addToCart(Number(btn.dataset.id));
+    });
+
+    // Shipping
+    const freeCities = ['kenitra','sidi taibi','sidi yahya el gharb','mechra bel ksiri','sidi slimane','sidi kacem'];
+    function getShipping(city) {
+      const c = city.toLowerCase().trim();
+      if (freeCities.includes(c)) return 0;
+      return 45;
+    }
+
+    // Populate city list
+    const allCities = [
+      'Marrakech','Meknes','Tnine Mhaya','Ain Taoujdate','Sabaa Aiyoun','Boufakrane','El Hajeb','Bouderbala','Agourai','Boujdour',
+      'Tetouan','Martil','M Diq','Fnideq','Errachidia','Oujda','Nador','Selouane','Al Aaroui','Zaio','Driouch','Khouribga',
+      'Oued Zem','Boulanouar','Boujniba','Bir Mezoui','Khemisset','Tiflet','Mohammedia','Ain Harrouda','Dakhla','Kenitra',
+      'Sidi Taibi','Sidi Yahya El Gharb','Mechra Bel Ksiri','Sidi Sliman','Sidi Kacem','Tan Tan','Guelmim','Bouizakarne',
+      'Sidi Ifni','Rabat','Sale','Sale El Jadida','Temara','Tamesna','Skhirat','Ouarzazat','Ait Zineb','Tajda','Timdline',
+      'Tifoultoute','Ifran','Azrou','Agadir','Inzegane','Dcheira','Ait Meloul','Sidi Bibi','Taghazoute','Fes',
+      'Oulad Ettayeb','Essmara','Berrchid','Deroua','Nouaceur','Had Soualem','Al Hoceima','Ajdir','Ait Kamra','Imzouren',
+      'Youssoufia','Essaouira','Ounagha','Had Draa','Mejji','Ghazoua','Tanger','Mrirt','Khenifra','Ben Guerir',
+      'Taroudannt','Oulad Teima','Ait Laaza','Aoulouz','Taliouine','Sebt El Guerdane','Berkane','Saidia','Ras El Ma',
+      'Bni Drar','Ahfir','Aklim','Zeghanghane','Farkhana','Taza','Guercif','Tiznit','Safi','Had Hrara','Sebt Gzoula',
+      'Larache','Ksar El Kebir','Chefchaouen','Sidi Bernoussi','Casablanca','Bouskoura','Dar Bouaza','Mediouna',
+      'El Kelaa Des Sraghna','El Jadida','Azemmour','Sidi Bouzid','Moulay Abdellah','Oualidia','Sidi Bennour',
+      'Beni Ansar','Laayoune','Beni Mellal','Fquih Ben Salah','Sebt Oulad Nemma','Afourer','Ouled Yaiche','El Ksiba',
+      'Ain Aouda','Tamansourt','Benslimane','Kasbah Tadla','Chemaia','Ourika','Tahannaout','Ait Ourir','Oudaya',
+      'Chichaoua','Assilah','Bouznika','Sefrou','Taourirt','Chouiter','Sidi Allal el Bahraoui','Ouazzane','Harhoura',
+      'Laattaouia','Rissani','Arfoud','Merzouga','Taddart','Bni Bouayach','Azilal','Ouaouizeght','Bejaad','Tinghir',
+      'Boumalne Dades','Kalaat MGouna','Alnif','Taounate','Awrir','Ait amira','Belfaa','Anza','BAB TAZA','Bab berred',
+      'Midelt','Laayoun Cherqia','Zagora','Tamegroute','Tagomite','Mhamid Lghezlane','Agdz','Nkob','Tazzarine','Errich',
+      'Missour','Boumia','Tinjdad','Gulmima','Sidi Bouknadel','IMINTANOUTE','DEMNATE','Ouad Laou','Cabo Negro',
+      'Khmiss Zemamera','Sidi Smail','Oulad Fraj','Sidi Rehal','Assa','Boudnib','Ben Ahmed','Sidi Bou Othmane',
+      'Souk Elarbaa Du Gharb','AZLA','MARINA','AIN ATIG','MERS LKHIR','SIDI YAHYA ZAIR','JORF SFER','BIR JDID',
+      'MIDAR','BENTAYAB','EL GARA','SETTAT','BNI OUKIL','Jemaat Shaim','BENI KLA','TIKIWINE','TIZI OUSLI','TAHLA',
+      'EL CAP','Al Rahma','BOUKIDAN','SKHOUR RHAMNA','IMOUZAR KANDAR','OUED AMLIL','Biougra','Mensouria','Tighsalin',
+      'Jerada','laayoune-oujda','kKerrouchen','Tit Mellil','Oulad berhili','Tata','moulay yacoub','Ait ishak',
+      'ighrem laalam','SIDI JABER','Bouarfa','Figuig','Ksar sghir','Oulad ayad','Dar oulad zidoune','zaouiat cheikh',
+      'laouamra','zoumi','Aglmous','Ait Addou','Houara','Mireleft','Tilmia','Ait Marghade','Taadadati','Ait Karmas',
+      'Bab Attoutchy','Toumliwana','Tiidrinas','Ait Hanik','Illigha','Tadaout','Tanout','Battou','Takchawa','Lqliaa',
+      'Madagh','Regada','Jaadar','Bouarg','ARkman','Teztoutin','Dar El kebdani','Taouima','Ihdaden','Crona',
+      'Ouled Settout','Boudinar','Anwal','Amzarou','Mariouari','Bouhlou','Aknoul','Bourd','Sidi Ali Bourakba',
+      'Ain Hamra','Hed Ouled Zbir','Kaldman','Issagen','Targist','Tala youssef','Souani','Hicham Azghar','Debdou',
+      'Tendrara','Bergem','Cafe Maure','LAMRIS','Naima','Moulay Bousselham','Khenichet','Lalla Mimouna',
+      'Ain Beni Mathar','Tamaris','Outat El Haj','El Haj Kaddour','Oued Jdida','El Haouzia','Douar Tikni',
+      'Mazagan beach','SIDI ALI','Msawer Rasso','Tnin Chtouka','Oulad Amrane','Sidi Abed','Ouled Ghanem',
+      'Oulad Si Bouhya','Riouni','Laaounate','Hed laaounate','Beni Hilal','Jemaat Metal','Sebt El Maarif',
+      'Touilaate','Tnine El Ghiate','Dar Si Aissa','Souiria','El Beddouza','Laakarta','Tamelalt','El Bazzaza',
+      'Ouled Said El Oued','Oulad Youssef','Oulad Smail','Ait Rbaa','Ait Ali','Adouz','Tagzert','Foum El-Ansar',
+      'Tanougha','Oulad Mbarek','Oulad Moussa','Laayayta - Ouled Gnaou','Hed Bradia','Oulad Ali','Oulad Driss',
+      'El Khelfia','Had Boumoussa','Timoulilte','Foum Oudi','Beni Ayat','El Kebab','Ouaoumana','Kef en Nsour',
+      'Hattane','Ouled Gouaouch','Tachrafat','Drarga','Tamraght','Massa','Houara - Agadir','Tafraoute','Aglou',
+      'El Maader El Kabir','Arbaa Sahel','Idaousmlal','Boulemane','Amzmiz','Lagouassem','SIDI ABDELLAH GHIAT',
+      'SIDI MOUSSA','AGHMAT','Ouahat Sidi Brahim','Belaaguid','Oulad Yahya','Douar Bouaazza','Souihla','SIDI ZOUIN',
+      'Douar Sultan','Moulay Brahim','Sidi Mokhtar','Mzoudia','Ouled Hassoune','Ajdir (taza)','Karia Be Mohammed',
+      'Skoura','Dkhissa','Moulay driss zerhoun','Ain Karma','JemÃ¢a El Houdrane','Ain Johra','Bhalil','Elmnzel',
+      'sidi allal tai'
+    ];
+    const datalist = document.getElementById('cities');
+    allCities.forEach(c => { const o = document.createElement('option'); o.value = c; datalist.appendChild(o); });
+
+    // Checkout
+    const checkoutOverlay = document.getElementById('checkoutOverlay');
+    const checkoutModal = document.getElementById('checkoutModal');
+    const checkoutForm = document.getElementById('checkoutForm');
+    const checkoutTotal = document.getElementById('checkoutTotal');
+    const checkoutSubtotal = document.getElementById('checkoutSubtotal');
+    const checkoutShipping = document.getElementById('checkoutShipping');
+    const placeOrderBtn = document.getElementById('placeOrderBtn');
+    const cityInput = document.getElementById('city');
+
+    function calcShipping() {
+      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const city = cityInput.value.trim().toLowerCase();
+      let shipping = null;
+      if (allCities.some(c => c.toLowerCase() === city)) {
+        shipping = getShipping(city);
+      }
+      if (shipping === null) {
+        checkoutSubtotal.textContent = subtotal.toLocaleString() + ' dh';
+        checkoutShipping.textContent = '—';
+        checkoutTotal.textContent = subtotal.toLocaleString() + ' dh';
+        placeOrderBtn.textContent = 'Select a valid city';
+        placeOrderBtn.disabled = true;
+      } else {
+        const total = subtotal + shipping;
+        checkoutSubtotal.textContent = subtotal.toLocaleString() + ' dh';
+        checkoutShipping.textContent = shipping === 0 ? 'Free' : shipping + ' dh';
+        checkoutTotal.textContent = total.toLocaleString() + ' dh';
+        placeOrderBtn.textContent = 'Place Order';
+        placeOrderBtn.disabled = false;
+      }
+    }
+
+    function openCheckout() {
+      checkoutOverlay.classList.add('open');
+      checkoutModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      calcShipping();
+    }
+    function closeCheckout() {
+      checkoutOverlay.classList.remove('open');
+      checkoutModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      if (cart.length === 0) return;
+      closeCart();
+      setTimeout(openCheckout, 350);
+    });
+    document.getElementById('checkoutClose').addEventListener('click', closeCheckout);
+    checkoutOverlay.addEventListener('click', closeCheckout);
+
+    checkoutForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const city = document.getElementById('city').value.trim();
+      if (!firstName || !lastName || !phone || !address || !city) return;
+
+      const shipping = getShipping(city);
+      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const total = subtotal + shipping;
+
+      const order = {
+        firstName, lastName, phone, address, city,
+        items: cart.map(i => `${i.name} x${i.qty} — ${(i.price * i.qty).toLocaleString()} dh`).join(', '),
+        subtotal: subtotal.toLocaleString() + ' dh',
+        shipping: shipping === 0 ? 'Free' : shipping + ' dh',
+        total: total.toLocaleString() + ' dh'
+      };
+
+      const formData = new FormData();
+      formData.append('Name', `${firstName} ${lastName}`);
+      formData.append('Phone', phone);
+      formData.append('Address', `${address}, ${city}`);
+      formData.append('Items', order.items);
+      formData.append('Items with Images', cart.map(i => `${i.name} x${i.qty} — ${(i.price * i.qty).toLocaleString()} dh${i.img ? ' (https://glitzjewels.netlify.app/' + i.img + ')' : ''}`).join(' | '));
+      formData.append('Subtotal', order.subtotal);
+      formData.append('Shipping', order.shipping);
+      formData.append('Total', order.total);
+      fetch('https://formspree.io/f/mdaryapl', { method: 'POST', body: formData, headers: { Accept: 'application/json' } }).catch(() => {});
+
+      const orders = JSON.parse(localStorage.getItem('glitzOrders') || '[]');
+      orders.push({ ...order, id: Date.now(), date: new Date().toLocaleString() });
+      localStorage.setItem('glitzOrders', JSON.stringify(orders));
+
+      showToast(`Thank you, ${firstName}! Your order of ${order.total} has been placed.`);
+      cart = [];
+      updateCart();
+      closeCheckout();
+      checkoutForm.reset();
+    });
+
+    // Admin
+    document.getElementById('adminTrigger').addEventListener('dblclick', () => {
+      const orders = JSON.parse(localStorage.getItem('glitzOrders') || '[]');
+      let html = `<div style="padding:2rem;font-family:sans-serif;max-width:700px;margin:2rem auto">
+        <h2 style="color:#3d2c2e;margin-bottom:0.5rem">Orders</h2>
+        <p style="color:#a89a9c;font-size:0.85rem;margin-bottom:2rem">${orders.length} total</p>`;
+      if (orders.length === 0) {
+        html += '<p style="color:#a89a9c">No orders yet.</p>';
+      } else {
+        orders.reverse().forEach(o => {
+          html += `<div style="background:#fff;border-radius:12px;padding:1rem;margin-bottom:0.8rem;box-shadow:0 2px 10px rgba(0,0,0,0.04)">
+            <strong>${o.firstName} ${o.lastName}</strong> &middot; ${o.date}<br>
+            <span style="color:#7a6a6c;font-size:0.85rem">${o.phone} &middot; ${o.address}, ${o.city}</span><br>
+            <span style="font-size:0.85rem">${o.items}</span><br>
+            <strong style="color:#f0b5b5">${o.total}</strong>
+          </div>`;
+        });
+      }
+      html += '<br><button onclick="history.go()" style="padding:0.6rem 1.5rem;border:1px solid #f0b5b5;background:#fff;cursor:pointer;border-radius:8px">Back</button></div>';
+      document.body.innerHTML = html;
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    updateCart();
+  </script>
+</body>
+</html>
